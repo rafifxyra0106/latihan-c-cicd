@@ -83,3 +83,13 @@ deploy:
             echo "Deployment simulasi berhasil dijalankan"
             docker compose pull || echo "compose pull dilewati untuk simulasi"
             docker compose up -d || echo "compose up dilewati untuk simulasi"
+
+- name: Notifikasi hasil deployment
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Deployment berhasil ke server ${{ secrets.SERVER_HOST }}"
+          else
+            echo "❌ Deployment gagal, cek log di atas"
+          fi
+
